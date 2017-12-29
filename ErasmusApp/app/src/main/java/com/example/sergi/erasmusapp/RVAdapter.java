@@ -28,10 +28,10 @@ import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
 
-    List<Person> persons;
+    List<Movie> movies;
 
-    RVAdapter(List<Person> persons){
-        this.persons = persons;
+    RVAdapter(List<Movie> movies){
+        this.movies = movies;
     }
 
     public static class PersonViewHolder extends RecyclerView.ViewHolder {
@@ -51,7 +51,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
 
     @Override
     public int getItemCount() {
-        return persons.size();
+        return movies.size();
     }
 
     @Override
@@ -63,9 +63,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
 
     @Override
     public void onBindViewHolder(PersonViewHolder personViewHolder, int i) {
-        personViewHolder.personName.setText(persons.get(i).name);
-        personViewHolder.personAge.setText(persons.get(i).age);
-        personViewHolder.personPhoto.setImageResource(persons.get(i).photoId);
+        personViewHolder.personName.setText(movies.get(i).name);
+        personViewHolder.personAge.setText(movies.get(i).age);
+        personViewHolder.personPhoto.setImageResource(movies.get(i).photoId);
     }
 
     @Override
