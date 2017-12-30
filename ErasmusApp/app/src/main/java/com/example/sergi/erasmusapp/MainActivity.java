@@ -9,6 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +52,28 @@ public class MainActivity extends AppCompatActivity {
         RVAdapter adapter = new RVAdapter(persons);
         mRecyclerView.setAdapter(adapter);
 
+        //API REQUEST
+        String url = "https://api.themoviedb.org/3/movie/550?api_key=273531e72e67f4aa37c0363676a846db\n";
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("myTag", "This is my message");
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO Auto-generated method stub
+
+                    }
+                });
+
+        String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonObjectRequest";
+        // Access the RequestQueue through your singleton class.
+        AppSingleton.getInstance(this).addToRequestQueue(jsObjRequest, REQUEST_TAG);
 
     }
 }
