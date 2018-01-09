@@ -4,19 +4,19 @@
         <item
             android:id="@+id/afegir_llibre"
             android:icon="@drawable/ic_menu"
-            android:title="Afegir llibre"/>
+            android:title="Top Rated"/>
         <item
             android:id="@+id/buscar"
             android:icon="@drawable/ic_menu"
-            android:title="Buscar"/>
+            android:title="Most Popular"/>
         <item
             android:id="@+id/ordenar_categoria"
             android:icon="@drawable/ic_menu"
-            android:title="Ordenar per Categoria"/>
+            android:title="Latest"/>
         <item
             android:id="@+id/ordenar_titol"
             android:icon="@drawable/ic_menu"
-            android:title="Ordenar per títol"/>
+            android:title="Upcoming"/>
 
     </group>
 
@@ -27,11 +27,11 @@
             <item
                 android:id="@+id/about_us"
                 android:icon="@drawable/ic_menu"
-                android:title="Sobre nosaltres"/>
+                android:title="About us"/>
             <item
                 android:id="@+id/help"
                 android:icon="@drawable/ic_menu"
-                android:title="Ajuda"/>
+                android:title="Help"/>
         </menu>
     </item>
 </menu>

@@ -8,17 +8,32 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/main">
 
-    <!-- Toolbar -->
-    <android.support.v7.widget.Toolbar
+    <!--&lt;!&ndash; Toolbar &ndash;&gt;-->
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/appbar"-->
+        <!--android:layout_height="?attr/actionBarSize"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:minHeight="?attr/actionBarSize"-->
+        <!--android:background="?attr/colorPrimary"-->
+        <!--android:elevation="4dp"-->
+        <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+        <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
+
+    <android.support.design.widget.TabLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/appbar"
-        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:minHeight="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        android:scrollbars="horizontal"
+        app:layout_scrollFlags="scroll|enterAlways" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tab_layout"/>
 
     <!-- Resto de la interfaz de usuario -->
     <android.support.v7.widget.RecyclerView

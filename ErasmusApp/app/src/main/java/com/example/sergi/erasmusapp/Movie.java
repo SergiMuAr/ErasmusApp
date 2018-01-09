@@ -7,11 +7,11 @@ package com.example.sergi.erasmusapp;
 public class Movie {
     String title;
     String year;
-    int photoId;
+    String photoPath;
 
-    Movie(String title, String year, int photoId) {
+    Movie(String title, String year, String photoPath) {
         this.title = title;
         this.year = year;
-        this.photoId = photoId;
+        this.photoPath = photoPath;
     }
 }
