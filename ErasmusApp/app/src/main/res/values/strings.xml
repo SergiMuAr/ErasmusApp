@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">ErasmusApp</string>
+    <string name="movie_baseUrl">https://api.themoviedb.org/3/movie</string>
+
     <!-- API_KEYS -->
     <string name="movies_api_key">273531e72e67f4aa37c0363676a846db</string>
     <string name="books_api_key">AIzaSyA0w2q9fv23HDXl8yRaBjamWytC1nEA1W4</string>

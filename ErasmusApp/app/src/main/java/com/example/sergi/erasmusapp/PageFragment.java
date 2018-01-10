@@ -26,13 +26,15 @@ public class PageFragment extends Fragment {
 
     private int mPage;
 
+    private FilterMovie filterMovie;
+
+
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Movie> movies = new ArrayList<>();
 
     private RVAdapter adapter;
-    private String aux = "hola";
     public static PageFragment newInstance(int page) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, page);
@@ -62,44 +64,44 @@ public class PageFragment extends Fragment {
         switch (mPage){
             case 1:
                     //API REQUEST
-            String api_key = getResources().getString(R.string.movies_api_key);
-            String url = "https://api.themoviedb.org/3/movie/popular?api_key="+api_key+"&language=en-US&page=1";
+                filterMovie = new FilterMovie(getActivity().getApplicationContext());
+                String url = filterMovie.getNowPlaying();
 
-            JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                    (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                JSONArray results = response.getJSONArray("results");
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    JSONArray results = response.getJSONArray("results");
 
-                                Log.i("JSON: ",results.toString());
-                                ArrayList<Movie> aux = new ArrayList<> ();
-                                for (int i = 0;i < results.length();++i) {
-                                    JSONObject var = results.getJSONObject(i);
-                                    Movie aux2 = new Movie(var.getString("title"), var.getString("release_date"), "https://image.tmdb.org/t/p/w185" + var.getString("poster_path"));
-                                    aux.add(aux2);
+                                    Log.i("JSON: ",results.toString());
+                                    ArrayList<Movie> aux = new ArrayList<> ();
+                                    for (int i = 0;i < results.length();++i) {
+                                        JSONObject var = results.getJSONObject(i);
+                                        Movie aux2 = new Movie(var.getString("title"), var.getString("release_date"), "https://image.tmdb.org/t/p/w185" + var.getString("poster_path"));
+                                        aux.add(aux2);
+                                    }
+                                    loadList(aux);
                                 }
-                                loadList(aux);
+                                catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                            catch (JSONException e) {
-                                e.printStackTrace();
+                        }, new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // TODO Auto-generated method stub
+
                             }
-                        }
-                    }, new Response.ErrorListener() {
-
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            // TODO Auto-generated method stub
-
-                        }
-                    });
+                        });
 
 
 
-            String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonObjectRequest";
-            // Access the RequestQueue through your singleton class.
-            AppSingleton.getInstance(getActivity()).addToRequestQueue(jsObjRequest, REQUEST_TAG);
+                String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonObjectRequest";
+                // Access the RequestQueue through your singleton class.
+                AppSingleton.getInstance(getActivity()).addToRequestQueue(jsObjRequest, REQUEST_TAG);
                 break;
             case 2:
                 break;
