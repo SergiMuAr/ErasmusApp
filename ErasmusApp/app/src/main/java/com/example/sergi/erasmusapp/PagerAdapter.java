@@ -14,9 +14,11 @@ public class PagerAdapter extends FragmentPagerAdapter {
     private String tabTitles[] = new String[] { "Movies", "Books", "Games"};
     private Context context;
 
+
     public PagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
+
     }
 
     @Override

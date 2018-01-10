@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/afegir_llibre"
+            android:id="@+id/top_rated"
             android:icon="@drawable/ic_menu"
             android:title="Top Rated"/>
         <item
-            android:id="@+id/buscar"
+            android:id="@+id/most_popular"
             android:icon="@drawable/ic_menu"
             android:title="Most Popular"/>
         <item
-            android:id="@+id/ordenar_categoria"
+            android:id="@+id/now_playing"
             android:icon="@drawable/ic_menu"
-            android:title="Latest"/>
+            android:title="Now Playing"/>
         <item
-            android:id="@+id/ordenar_titol"
+            android:id="@+id/upcoming"
             android:icon="@drawable/ic_menu"
             android:title="Upcoming"/>
 

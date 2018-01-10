@@ -26,6 +26,7 @@ public class PageFragment extends Fragment {
 
     private int mPage;
 
+    private MainActivity mainActivity;
     private FilterMovie filterMovie;
 
 
@@ -47,6 +48,7 @@ public class PageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPage = getArguments().getInt(ARG_PAGE);
+        mainActivity = (MainActivity) getActivity();
     }
 
     @Override
@@ -64,8 +66,8 @@ public class PageFragment extends Fragment {
         switch (mPage){
             case 1:
                     //API REQUEST
-                filterMovie = new FilterMovie(getActivity().getApplicationContext());
-                String url = filterMovie.getNowPlaying();
+                filterMovie = mainActivity.getFilterMovie();
+                String url = filterMovie.getUrlNow();
 
                 JsonObjectRequest jsObjRequest = new JsonObjectRequest
                         (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {

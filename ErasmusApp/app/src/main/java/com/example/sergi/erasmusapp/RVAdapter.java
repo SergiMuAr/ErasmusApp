@@ -22,6 +22,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
 
     List<Movie> movies;
     Context mContext;
+    FilterMovie filterMovie;
 
     RVAdapter(List<Movie> movies, Context context){
         this.movies = movies;
