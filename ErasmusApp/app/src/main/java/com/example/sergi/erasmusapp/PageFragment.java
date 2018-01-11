@@ -1,5 +1,6 @@
 package com.example.sergi.erasmusapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,12 +15,18 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.igdb.api_android_java.callback.onSuccessCallback;
+import com.igdb.api_android_java.model.APIWrapper;
+import com.igdb.api_android_java.model.Parameters;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class PageFragment extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
@@ -61,13 +68,16 @@ public class PageFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new RVAdapter(movies, getActivity());
         mRecyclerView.setAdapter(adapter);
+        JsonObjectRequest jsObjRequest;
+        String url = "";
+        String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonObjectRequest";
         switch (mPage){
             case 1:
                     //API REQUEST
                 filterMovie = new FilterMovie(getActivity().getApplicationContext());
-                String url = filterMovie.getNowPlaying();
+                url = filterMovie.getNowPlaying();
 
-                JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                jsObjRequest = new JsonObjectRequest
                         (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
                             @Override
@@ -99,13 +109,89 @@ public class PageFragment extends Fragment {
 
 
 
-                String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonObjectRequest";
                 // Access the RequestQueue through your singleton class.
                 AppSingleton.getInstance(getActivity()).addToRequestQueue(jsObjRequest, REQUEST_TAG);
                 break;
             case 2:
+                String key = getActivity().getResources().getString(R.string.books_api_key);
+                url = "https://www.googleapis.com/books/v1/volumes?q=intitle:&key=" + key;
+                jsObjRequest = new JsonObjectRequest
+                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                String ajaja = "";
+                                try {
+                                    JSONArray results = response.getJSONArray("items");
+
+                                    Log.i("JSON: ",results.toString());
+                                    ArrayList<Movie> aux = new ArrayList<> ();
+                                    for (int i = 0;i < results.length();++i) {
+                                        JSONObject var = results.getJSONObject(i);
+                                        JSONObject volume = var.getJSONObject("volumeInfo");
+                                        JSONObject image = var.getJSONObject("imageLinks");
+                                        Movie aux2 = new Movie(volume.getString("title"), var.getString("publishedDate"), image.getString("thumbnail"));
+                                        aux.add(aux2);
+                                    }
+                                    loadList(aux);
+                                }
+                                catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // TODO Auto-generated method stub
+
+                            }
+                        });
+
+                // Access the RequestQueue through your singleton class.
+                AppSingleton.getInstance(getActivity()).addToRequestQueue(jsObjRequest, REQUEST_TAG);
                 break;
             case 3:
+                Context context = getActivity().getApplicationContext();
+                APIWrapper wrapper = new APIWrapper(context, context.getResources().getString(R.string.games_api_key));
+                Parameters params = new Parameters()
+                        .addFields("*")
+                        .addOrder("published_at:desc");
+
+                wrapper.games(params, new onSuccessCallback(){
+                    @Override
+                    public void onSuccess(JSONArray result) {
+                        // Do something with resulting JSONArray
+                        Log.i("JSON: ",result.toString());
+                        ArrayList<Movie> aux = new ArrayList<> ();
+                        for (int i = 0;i < result.length();++i) {
+                            JSONObject var = null;
+                            try {
+                                var = result.getJSONObject(i);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Movie aux2 = null;
+                            try {
+                                String urlNoHash = "https://images.igdb.com/igdb/image/upload/t_cover_big/";
+                                JSONObject cover  = var.getJSONObject("cover");
+                                String str = var.getString("created_at");
+                                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+                                Date date = new Date(Long.parseLong(str));
+                                aux2 = new Movie(var.getString("name"), sf.format(date), urlNoHash + cover.getString("cloudinary_id") + ".jpg");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            aux.add(aux2);
+                        }
+                        loadList(aux);
+                    }
+
+                    @Override
+                    public void onError(VolleyError error) {
+                        // Do something on error
+                    }
+                });
                 break;
         }
         return view;
