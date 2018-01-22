@@ -120,18 +120,31 @@ public class PageFragment extends Fragment {
 
                             @Override
                             public void onResponse(JSONObject response) {
-                                String ajaja = "";
                                 try {
                                     JSONArray results = response.getJSONArray("items");
 
                                     Log.i("JSON: ",results.toString());
                                     ArrayList<Movie> aux = new ArrayList<> ();
                                     for (int i = 0;i < results.length();++i) {
+
                                         JSONObject var = results.getJSONObject(i);
-                                        JSONObject volume = var.getJSONObject("volumeInfo");
-                                        JSONObject image = var.getJSONObject("imageLinks");
-                                        Movie aux2 = new Movie(volume.getString("title"), var.getString("publishedDate"), image.getString("thumbnail"));
-                                        aux.add(aux2);
+                                        //if (var.isNull("title")) ? volume = var.getJSONObject("volumeInfo") : volume = new JSONObject();
+                                        if (var.has("volumeInfo") && !var.isNull("volumeInfo")){
+                                            String publishDate = "Not available";
+                                            String title = "Not available";
+                                            String thumbnail = "http://www.riobeauty.it/images/product_image_not_found.gif";
+                                            JSONObject volume = var.getJSONObject("volumeInfo");
+                                            if (volume.has("publishedDate") && !volume.isNull("publishedDate"))
+                                                publishDate = volume.getString("publishedDate");
+                                            if (volume.has("title") && !volume.isNull("title"))
+                                                title = volume.getString("title");
+                                            if (volume.has("imageLinks") && !volume.isNull("imageLinks")){
+                                                JSONObject image = volume.getJSONObject("imageLinks");
+                                                thumbnail = image.getString("thumbnail");
+                                            }
+                                            Movie aux2 = new Movie(title, publishDate, thumbnail);
+                                            aux.add(aux2);
+                                        }
                                     }
                                     loadList(aux);
                                 }
