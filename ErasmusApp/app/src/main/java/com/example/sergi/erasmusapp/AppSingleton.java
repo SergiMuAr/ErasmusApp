@@ -18,6 +18,12 @@ public class AppSingleton {
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
     private static Context mContext;
+    private String urlType;
+    public static final String TOP_RATED = "top_rated";
+    public static final String MOST_POPULAR = "most_popular";
+    public static final String PLAYING = "playing";
+    public static final String UPCOMING = "upcoming";
+
 
     private AppSingleton(Context context) {
         mContext = context;
@@ -69,5 +75,13 @@ public class AppSingleton {
         if (mRequestQueue != null) {
             mRequestQueue.cancelAll(tag);
         }
+    }
+
+    public String getUrlType() {
+        return urlType;
+    }
+
+    public void setUrlType(String urlType) {
+        this.urlType = urlType;
     }
 }

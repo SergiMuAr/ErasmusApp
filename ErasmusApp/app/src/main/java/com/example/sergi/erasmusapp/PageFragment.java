@@ -71,12 +71,12 @@ public class PageFragment extends Fragment {
         JsonObjectRequest jsObjRequest;
         String url = "";
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonObjectRequest";
+        filterMovie = new FilterMovie(getActivity().getApplicationContext());
         switch (mPage){
             case 1:
                     //API REQUEST
-                filterMovie = new FilterMovie(getActivity().getApplicationContext());
-                url = filterMovie.getNowPlaying();
-
+                String aux = AppSingleton.getInstance(getActivity()).getUrlType();
+                url = filterMovie.getUrlNow(aux);
                 jsObjRequest = new JsonObjectRequest
                         (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
@@ -128,7 +128,6 @@ public class PageFragment extends Fragment {
                                     for (int i = 0;i < results.length();++i) {
 
                                         JSONObject var = results.getJSONObject(i);
-                                        //if (var.isNull("title")) ? volume = var.getJSONObject("volumeInfo") : volume = new JSONObject();
                                         if (var.has("volumeInfo") && !var.isNull("volumeInfo")){
                                             String publishDate = "Not available";
                                             String title = "Not available";
