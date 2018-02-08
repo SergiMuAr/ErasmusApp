@@ -34,7 +34,7 @@ public class PageFragment extends Fragment {
     private int mPage;
 
     private FilterMovie filterMovie;
-
+//    private AdapterAPI adapterAPI;
 
 
     private RecyclerView mRecyclerView;
@@ -68,6 +68,7 @@ public class PageFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new RVAdapter(movies, getActivity());
         mRecyclerView.setAdapter(adapter);
+//        mRecyclerView.addOnScrollListener(new ScrollListener());
         JsonObjectRequest jsObjRequest;
         String url = "";
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonObjectRequest";
